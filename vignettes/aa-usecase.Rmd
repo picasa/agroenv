@@ -1,0 +1,49 @@
+---
+title: "Usecases for agroenv"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{aa-usecase}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(agroenv)
+
+```
+
+## Get information on climate stations or grid cells around a given geographical location
+
+Various stations networks or gridded data are available depending on the location requested:
+
+* in the world, agroenv is only a wrapper around the nasapower package.
+* in Europe, the agri4cast gridded data is usable.
+* in France, two new additional sources are usable: the network from Meteo-France stations and gridded data from the SAFRAN model. Related climate data are not distributed here but if you are an authorized user, the agroenv package helps read and format these datasets.
+
+```{r grid}
+location <- data.frame(lat=43.5279, lon=1.5009)
+
+get_station(location$lat, location$lon, network="meteofrance", n=1)
+
+get_station(location$lat, location$lon, network="safran", n=1)
+```
+
+## Get climate data in the same format from various sources
+
+```{r data_nasapower}
+
+# get_climate_nasapower(lat=location$lat, lon=location$lon, year=2003)
+```
+
+```{r data_safran}
+path_safran <- "~/Documents/INRA/Database/db_safran"
+
+get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safran)
+
+```
+

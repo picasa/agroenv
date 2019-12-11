@@ -1,0 +1,27 @@
+Package: agroenv
+Title: Get Soil and Climate Data
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Pierre",
+           family = "Casadebaig",
+           role = c("aut", "cre"),
+           email = "pierre.casadebaig@inra.fr",
+           comment = c(ORCID = "0000-0001-7225-936X"))
+Description: Retrieve soil and climate data from geographical coordinates using various data sources.
+License: MIT + file LICENSE
+Imports:
+    dplyr,
+    magrittr,
+    lubridate,
+    readr,
+    stringr,
+    zoo,
+    nasapower
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
