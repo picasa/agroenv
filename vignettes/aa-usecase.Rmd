@@ -40,7 +40,7 @@ get_station(location$lat, location$lon, network="safran", n=1)
 # get_climate_nasapower(lat=location$lat, lon=location$lon, year=2003)
 ```
 
-```{r data_safran}
+```{r data_safran, eval=FALSE}
 path_safran <- "~/Documents/INRA/Database/db_safran"
 
 get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safran)

@@ -4,8 +4,14 @@
 \alias{get_station}
 \title{get the closest climate station id based on physical station network or grid cell index}
 \usage{
-get_station(latitude, longitude, data = agroenv::station_index, network,
-  n = 1)
+get_station(
+  latitude,
+  longitude,
+  data = agroenv::station_index,
+  network,
+  n = 1,
+  ...
+)
 }
 \arguments{
 \item{latitude}{latitude of the geographical location in decimal degrees (WGS84)}
@@ -17,6 +23,8 @@ get_station(latitude, longitude, data = agroenv::station_index, network,
 \item{network}{string of the stations network or gridded data to use}
 
 \item{n}{number of results to return}
+
+\item{...}{additional arguments for use with pmap}
 }
 \value{
 a dataframe of station(s) or grid cell closest to the geographical location

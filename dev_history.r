@@ -19,7 +19,7 @@ usethis::use_r("station_index")
 usethis::use_r("get_climate")
 usethis::use_r("et_penman_monteith")
 
-
+devtools::document()
 devtools::check()
 
 usethis::use_git()

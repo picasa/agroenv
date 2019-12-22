@@ -5,6 +5,7 @@
 #' @param data list of dataframes containing stations or grid cell coordinates
 #' @param network string of the stations network or gridded data to use
 #' @param n number of results to return
+#' @param ... additional arguments for use with pmap
 #'
 #' @return a dataframe of station(s) or grid cell closest to the geographical location
 #' @export
@@ -13,7 +14,7 @@
 #' get_station(43.5279, 1.5009, network="climbox", n=5)
 #' }
 
-get_station <- function(latitude, longitude, data=agroenv::station_index, network, n=1) {
+get_station <- function(latitude, longitude, data=agroenv::station_index, network, n=1, ...) {
 
   results <- data[[network]] %>%
     dplyr::mutate(distance=distance_haversine(lat, lon, latitude, longitude)) %>%
