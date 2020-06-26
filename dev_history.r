@@ -17,6 +17,7 @@ usethis::use_r("distance_haversine")
 usethis::use_data(station_index, version = 3)
 usethis::use_r("station_index")
 usethis::use_r("get_climate")
+usethis::use_r("get_soil")
 usethis::use_r("et_penman_monteith")
 
 

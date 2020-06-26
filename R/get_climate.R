@@ -3,7 +3,7 @@
 #' @param lat latitude of the geographical location in decimal degrees (WGS84)
 #' @param lon longitude of the geographical location in decimal degrees (WGS84)
 #' @param year year(s) of the climate data to be retrieved
-#' @param path path to a directory containning grid cell data archives as made available by Meteo-France for research usage
+#' @param path path to a directory containing grid cell data archives as made available by Meteo-France for research usage
 #'
 #' @return a dataframe of daily climate data for 9 variables
 #' @export

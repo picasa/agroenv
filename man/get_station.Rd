@@ -4,8 +4,7 @@
 \alias{get_station}
 \title{get the closest climate station id based on physical station network or grid cell index}
 \usage{
-get_station(latitude, longitude, data = agroenv::station_index, network,
-  n = 1)
+get_station(latitude, longitude, data = agroenv::station_index, network, n = 1)
 }
 \arguments{
 \item{latitude}{latitude of the geographical location in decimal degrees (WGS84)}

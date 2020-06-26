@@ -4,12 +4,14 @@
 \name{station_index}
 \alias{station_index}
 \title{Index for climate station networks or grid cells}
-\format{A list of 4 dataframes:
+\format{
+A list of 4 dataframes:
 \describe{
   \item{station_id}{id of the station or grid cell}
   \item{lat}{latitude in decimal degrees WGS84}
   \item{lon}{longitude in decimal degrees WGS84}
-}}
+}
+}
 \source{
 \url{http://www/}
 }

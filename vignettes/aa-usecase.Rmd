@@ -19,11 +19,9 @@ library(agroenv)
 
 ## Get information on climate stations or grid cells around a given geographical location
 
-Various stations networks or gridded data are available depending on the location requested:
-
-* in the world, agroenv is only a wrapper around the nasapower package.
-* in Europe, the agri4cast gridded data is usable.
-* in France, two new additional sources are usable: the network from Meteo-France stations and gridded data from the SAFRAN model. Related climate data are not distributed here but if you are an authorized user, the agroenv package helps read and format these datasets.
+* world: agroenv is only a wrapper around the nasapower package [open].
+* Europe: agri4cast gridded data is used [open].
+* France: network from Meteo-France stations and gridded data from the SAFRAN model [closed]. Related climate data are not distributed here but if you are an authorized user, the agroenv package helps read and format these datasets.
 
 ```{r grid}
 location <- data.frame(lat=43.5279, lon=1.5009)
@@ -46,4 +44,20 @@ path_safran <- "~/Documents/INRA/Database/db_safran"
 get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safran)
 
 ```
+
+## Get soil data
+
+* Europe : European Soil Database (ESDB), derived [data](http://esdac.jrc.ec.europa.eu/content/esdb-derived-data) [@Hiederer2013] [open]. Related soil data are not distributed with this package.
+
+* france : INRAE UMR INFOSOL, *Carte de la Réserve Utile en eau* [doi](http://dx.doi.org/10.15454/JPB9RB) [@LeBas2018] [open]
+
+```{r data_esdb, eval=FALSE}
+path_esdb <- "~/Documents/INRA/Database/db_esdb"
+
+load(paste0(path_esdb, "/data_soil.rda"))
+
+get_soil_esdb(lat=location$lat, lon=location$lon, data=data_soil)
+
+```
+
 

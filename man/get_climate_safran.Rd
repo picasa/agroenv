@@ -13,7 +13,7 @@ get_climate_safran(lat, lon, year, path)
 
 \item{year}{year(s) of the climate data to be retrieved}
 
-\item{path}{path to a directory containning grid cell data archives as made available by Meteo-France for research usage}
+\item{path}{path to a directory containing grid cell data archives as made available by Meteo-France for research usage}
 }
 \value{
 a dataframe of daily climate data for 9 variables
