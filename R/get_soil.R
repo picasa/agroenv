@@ -13,7 +13,7 @@ get_soil_esdb <- function(lat, lon, data=data_soil) {
   index <- which.min(sqrt((data$lat-lat)^2 + (data$lon-lon)^2))
 
   # extract DB features
-  data_soil <- data %>% slice(index) %>% select(-(x:lat))
+  data_soil <- data %>% dplyr::slice(index) %>% dplyr::select(-(x:lat))
 
   return(data_soil)
 

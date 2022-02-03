@@ -14,7 +14,9 @@
 #' get_station(43.5279, 1.5009, network="climbox", n=5)
 #' }
 
-get_station <- function(latitude, longitude, data=agroenv::station_index, network, n=1, ...) {
+get_station <- function(
+  latitude, longitude, data=agroenv::station_index, network, n=1, ...
+  ) {
 
   results <- data[[network]] %>%
     dplyr::mutate(distance=distance_haversine(lat, lon, latitude, longitude)) %>%
