@@ -12,12 +12,14 @@ get_climate_safran <- function(lat, lon, year, path) {
   # get id for the grid cell
   grid_id <- get_station(lat, lon, network = "safran") %>% dplyr::pull(station_id)
 
+  file <- "quotidiennes_1990_11_2021_maille_"
+
   # select variables usable with crop models
   data_climate <- readr::read_delim(
-    paste0(path,"/","quotidiennes_1970_2019_maille_",grid_id,".csv.gz"),
+    paste0(path,"/",file,grid_id,".csv.gz"),
     delim=";", col_types="iiicddddddddd") %>%
     dplyr::select(id=1, date, RS=5, RR=6, TN=8, TX=9, TM=7, GR=10, RH=13, PET=11) %>%
-    dplyr::mutate(id=as.character(id), date=lubridate::dmy(date), RR=RS+RR, GR=GR/100) %>%
+    dplyr::mutate(id=as.character(id), date=lubridate::ymd(date), RR=RS+RR, GR=GR/100) %>%
     dplyr::filter(lubridate::year(date) %in% year) %>%
     dplyr::select(id, date, TN, TX, TM, RR, GR, PET)
 

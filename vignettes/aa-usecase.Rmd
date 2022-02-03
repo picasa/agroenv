@@ -23,7 +23,7 @@ library(agroenv)
 * Europe: agri4cast gridded data is used [open].
 * France: network from Meteo-France stations and gridded data from the SAFRAN model [closed]. Related climate data are not distributed here but if you are an authorized user, the agroenv package helps read and format these datasets.
 
-```{r grid}
+```{r grid, eval=FALSE}
 location <- data.frame(lat=43.5279, lon=1.5009)
 
 get_station(location$lat, location$lon, network="meteofrance", n=1)
@@ -33,7 +33,7 @@ get_station(location$lat, location$lon, network="safran", n=1)
 
 ## Get climate data in the same format from various sources
 
-```{r data_nasapower}
+```{r data_nasapower, eval=FALSE}
 
 # get_climate_nasapower(lat=location$lat, lon=location$lon, year=2003)
 ```
