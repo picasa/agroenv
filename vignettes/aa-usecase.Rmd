@@ -34,11 +34,15 @@ get_station(location$lat, location$lon, network="safran", n=1)
 ## Get climate data in the same format from various sources
 
 ```{r data_nasapower, eval=FALSE}
+location <- data.frame(lat=43.5279, lon=1.5009)
 
-# get_climate_nasapower(lat=location$lat, lon=location$lon, year=2003)
+get_climate_nasapower(lat=location$lat, lon=location$lon, year=2003)
+
 ```
 
 ```{r data_safran, eval=FALSE}
+location <- data.frame(lat=43.5279, lon=1.5009)
+
 path_safran <- "~/Documents/INRA/Database/db_safran"
 
 get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safran)
