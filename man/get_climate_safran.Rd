@@ -4,9 +4,11 @@
 \alias{get_climate_safran}
 \title{get climate data from the SAFRAN model, using a local repository of grid cell data archives}
 \usage{
-get_climate_safran(lat, lon, year, path)
+get_climate_safran(id = NULL, lat = NULL, lon = NULL, year, path)
 }
 \arguments{
+\item{id}{id for the cell grid (optional)}
+
 \item{lat}{latitude of the geographical location in decimal degrees (WGS84)}
 
 \item{lon}{longitude of the geographical location in decimal degrees (WGS84)}

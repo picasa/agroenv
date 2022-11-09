@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+library(tidyverse)
 library(agroenv)
 
 ```
@@ -58,9 +59,13 @@ get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safr
 ```{r data_esdb, eval=FALSE}
 path_esdb <- "~/Documents/INRA/Database/db_esdb"
 
+location <- data.frame(lat=43.5279, lon=1.5009)
+
 load(paste0(path_esdb, "/data_soil.rda"))
 
 get_soil_esdb(lat=location$lat, lon=location$lon, data=data_soil)
+
+# get_param_soil(lat=location$lat, lon=location$lon, data=data_soil)
 
 ```
 

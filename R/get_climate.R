@@ -1,5 +1,6 @@
 #' get climate data from the SAFRAN model, using a local repository of grid cell data archives
 #'
+#' @param id id for the cell grid (optional)
 #' @param lat latitude of the geographical location in decimal degrees (WGS84)
 #' @param lon longitude of the geographical location in decimal degrees (WGS84)
 #' @param year year(s) of the climate data to be retrieved
@@ -8,15 +9,21 @@
 #' @return a dataframe of daily climate data for 9 variables
 #' @export
 
-get_climate_safran <- function(lat, lon, year, path) {
-  # get id for the grid cell
-  grid_id <- get_station(lat, lon, network = "safran") %>% dplyr::pull(station_id)
+get_climate_safran <- function(id = NULL, lat = NULL, lon = NULL, year, path) {
 
-  file <- "quotidiennes_1990_11_2021_maille_"
+  # get id for the grid cell if not given
+  grid_id <- ifelse(
+    is.null(id),
+    get_station(lat, lon, network = "safran") %>% dplyr::pull(station_id),
+    id)
+
+  # build the file name for the requested cell
+  prefix <- "quotidiennes_1990_11_2021_maille"
+  file <- glue::glue("{path}/{prefix}_{grid_id}.csv.gz")
 
   # select variables usable with crop models
   data_climate <- readr::read_delim(
-    paste0(path,"/",file,grid_id,".csv.gz"),
+    file,
     delim=";", col_types="iiicddddddddd") %>%
     dplyr::select(id=1, date, RS=5, RR=6, TN=8, TX=9, TM=7, GR=10, RH=13, PET=11) %>%
     dplyr::mutate(id=as.character(id), date=lubridate::ymd(date), RR=RS+RR, GR=GR/100) %>%
