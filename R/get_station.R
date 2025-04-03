@@ -15,7 +15,9 @@
 #' }
 
 get_station <- function(
-  latitude, longitude, data=agroenv::station_index, network, n=1, ...
+  latitude, longitude,
+  data = agroenv::station_index,
+  network = "meteofrance", n = 1, ...
   ) {
 
   results <- data[[network]] %>%

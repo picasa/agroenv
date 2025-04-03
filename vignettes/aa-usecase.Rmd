@@ -50,6 +50,29 @@ get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safr
 
 ```
 
+```{r data_meteofrance, eval=FALSE}
+# https://meteo.data.gouv.fr/datasets/6569b51ae64326786e4e8e1a
+library(agroenv)
+
+dep = 31
+loc = c(lat = 43.489374, lon = 1.514382)
+path = "https://object.files.data.gouv.fr/meteofrance/data/synchro_ftp/BASE/QUOT"
+
+file = glue::glue("{path}/Q_{dep}_latest-2024-2025_RR-T-Vent.csv.gz")
+
+table_climate <- read_delim(file) |> mutate(date = ymd(AAAAMMJJ))
+
+table_station <- get_station(loc["lat"], loc["lon"], n = 10) |> 
+  distinct() |> select(NUM_POSTE = station_id, distance) 
+
+table_climate |> 
+  inner_join(table_station) |> 
+  group_by(NUM_POSTE, NOM_USUEL) |> 
+  filter(between(date, today() - 30, today())) |> 
+  summarise(RR = sum(RR), distance = unique(distance)) |> arrange(distance)
+
+```
+
 ## Get soil data
 
 * Europe : European Soil Database (ESDB), derived [data](http://esdac.jrc.ec.europa.eu/content/esdb-derived-data) [@Hiederer2013] [open]. Related soil data are not distributed with this package.

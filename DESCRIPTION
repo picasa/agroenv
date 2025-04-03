@@ -19,7 +19,8 @@ Imports:
     nasapower
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    glue
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

@@ -4,12 +4,16 @@
 \alias{get_soil_esdb}
 \title{get soil data from the European Soil DataBase (ESDB), using a local repository for GIS files.}
 \usage{
-get_soil_esdb(lat, lon, data = data_soil)
+get_soil_esdb(lat, lon, format = "raw", data = data_soil)
 }
 \arguments{
 \item{lat}{latitude of the geographical location in decimal degrees (WGS84)}
 
 \item{lon}{longitude of the geographical location in decimal degrees (WGS84)}
+
+\item{format}{output format:
+* esdb : raw ESDB information
+* sunflo : rsunflo soil parameter list (assume a fixed wilting point)}
 
 \item{data}{dataframe created from ESDB GIS files as made available by the JRC lab for research usage.}
 }
