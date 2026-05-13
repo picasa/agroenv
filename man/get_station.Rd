@@ -8,7 +8,7 @@ get_station(
   latitude,
   longitude,
   data = agroenv::station_index,
-  network,
+  network = "meteofrance",
   n = 1,
   ...
 )

@@ -3,6 +3,7 @@
 export("%>%")
 export(distance_haversine)
 export(et_penman_monteith)
+export(get_climate_agri4cast)
 export(get_climate_nasapower)
 export(get_climate_safran)
 export(get_soil_esdb)

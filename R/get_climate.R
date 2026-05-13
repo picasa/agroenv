@@ -33,6 +33,62 @@ get_climate_safran <- function(id = NULL, lat = NULL, lon = NULL, year, path) {
   return(data_climate)
 }
 
+#' get climate data from the Agri4Cast MARS dataset (Parquet, 10 km grid)
+#'
+#' Returns daily records for the 10 km grid cell nearest to the input coordinates.
+#'
+#' @param lat Numeric. WGS84 latitude of the target location.
+#' @param lon Numeric. WGS84 longitude of the target location.
+#' @param country Character. ISO2 country code (uppercase, e.g. `"FR"`).
+#'   If `NULL`, the country is inferred from the coordinates (slower).
+#' @param year Integer vector of years to return (e.g. `2000:2001`). If `NULL`, all available years.
+#' @param margin Numeric. Half-width of the spatial bounding box in degrees (default 0.2).
+#'   Increase if no grid cell is found near the target (e.g. coastal or border locations).
+#' @param path Character. Path to the root parquet directory.
+#'
+#' @return A tibble with columns: `id`, `date`, `TN`, `TX`, `TM`, `WIND`, `VP`, `RR`, `PET`, `GR`.
+#' @export
+
+get_climate_agri4cast <- function(
+  lat, lon,
+  country = NULL,
+  year    = NULL,
+  margin  = 0.2,
+  path
+) {
+  ds <- arrow::open_dataset(path, partitioning = arrow::schema(COUNTRY = arrow::utf8(), YEAR = arrow::int32()))
+
+  yr_min <- if (!is.null(year)) min(year) else 1900L
+  yr_max <- if (!is.null(year)) max(year) else 2100L
+
+  q <- ds |>
+    dplyr::filter(
+      lat  >= .env$lat - margin, lat  <= .env$lat + margin,
+      lon  >= .env$lon - margin, lon  <= .env$lon + margin,
+      YEAR >= yr_min, YEAR <= yr_max
+    )
+
+  if (!is.null(country)) q <- q |> dplyr::filter(COUNTRY == country)
+
+  out <- dplyr::collect(q)
+
+  if (nrow(out) == 0) {
+    warning("No grid cell found in bbox (lat=", lat, ", lon=", lon, ", margin=", margin, "). Try increasing margin.")
+    return(out)
+  }
+
+  nearest_id <- out |>
+    dplyr::mutate(dist = (lat - .env$lat)^2 + (lon - .env$lon)^2) |>
+    dplyr::slice_min(dist, n = 1, with_ties = FALSE) |>
+    dplyr::pull(cell)
+
+  out |>
+    dplyr::filter(cell == nearest_id) |>
+    dplyr::mutate(id = as.character(cell)) |>
+    dplyr::select(id, date, TN, TX, TM, WIND, VP, RR = PR, GR = RAD, PET = ET0) |>
+    dplyr::arrange(date)
+}
+
 #' get climate data from the NASA POWER API using the R nasapower package
 #' @param lat latitude of the geographical location in decimal degrees (WGS84)
 #' @param lon longitude of the geographical location in decimal degrees (WGS84)

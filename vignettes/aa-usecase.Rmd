@@ -7,24 +7,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-
-library(tidyverse)
+```{r}
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 library(agroenv)
-
 ```
 
 ## Get information on climate stations or grid cells around a given geographical location
 
 * world: agroenv is only a wrapper around the nasapower package [open].
-* Europe: agri4cast gridded data is used [open].
+* Europe: agri4cast gridded data is used [open](https://agri4cast.jrc.ec.europa.eu/dataportal/resource/47).
 * France: network from Meteo-France stations and gridded data from the SAFRAN model [closed]. Related climate data are not distributed here but if you are an authorized user, the agroenv package helps read and format these datasets.
 
-```{r grid, eval=FALSE}
+```{r}
+#| label: grid
+#| eval: false
 location <- data.frame(lat=43.5279, lon=1.5009)
 
 get_station(location$lat, location$lon, network="meteofrance", n=1)
@@ -34,43 +33,55 @@ get_station(location$lat, location$lon, network="safran", n=1)
 
 ## Get climate data in the same format from various sources
 
-```{r data_nasapower, eval=FALSE}
+```{r}
+#| label: data_nasapower
+#| eval: false
 location <- data.frame(lat=43.5279, lon=1.5009)
 
 get_climate_nasapower(lat=location$lat, lon=location$lon, year=2003)
-
 ```
 
-```{r data_safran, eval=FALSE}
+```{r}
+#| label: data_agri4cast
+#| eval: false
 location <- data.frame(lat=43.5279, lon=1.5009)
 
-path_safran <- "~/Documents/INRA/Database/db_safran"
+path_agri4cast <- "~/Documents/INRAE/Database/db_agri4cast"
 
-get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safran)
-
+get_climate_agri4cast(lat=location$lat, lon=location$lon, country="FR", year=2003, path=path_agri4cast)
 ```
 
-```{r data_meteofrance, eval=FALSE}
+```{r}
+#| label: data_safran
+#| eval: false
+location <- data.frame(lat=43.5279, lon=1.5009)
+
+path_safran <- "~/Documents/INRAE/Database/db_safran"
+
+get_climate_safran(lat=location$lat, lon=location$lon, year=2003, path=path_safran)
+```
+
+```{r}
+#| label: data_meteofrance
+#| eval: false
 # https://meteo.data.gouv.fr/datasets/6569b51ae64326786e4e8e1a
-library(agroenv)
 
-dep = 31
-loc = c(lat = 43.489374, lon = 1.514382)
+dep = 66
+loc = c(lat = 42.386, lon =  2.617)
 path = "https://object.files.data.gouv.fr/meteofrance/data/synchro_ftp/BASE/QUOT"
-
 file = glue::glue("{path}/Q_{dep}_latest-2024-2025_RR-T-Vent.csv.gz")
+p_time = 30 # (days)
 
 table_climate <- read_delim(file) |> mutate(date = ymd(AAAAMMJJ))
 
-table_station <- get_station(loc["lat"], loc["lon"], n = 10) |> 
-  distinct() |> select(NUM_POSTE = station_id, distance) 
+table_station <- get_station(loc["lat"], loc["lon"], n = 10) |>
+  distinct() |> select(NUM_POSTE = station_id, distance)
 
-table_climate |> 
-  inner_join(table_station) |> 
-  group_by(NUM_POSTE, NOM_USUEL) |> 
-  filter(between(date, today() - 30, today())) |> 
+table_climate |>
+  inner_join(table_station) |>
+  group_by(NUM_POSTE, NOM_USUEL) |>
+  filter(between(date, today() - p_time, today())) |> arrange(distance, desc(date)) |>
   summarise(RR = sum(RR), distance = unique(distance)) |> arrange(distance)
-
 ```
 
 ## Get soil data
@@ -79,7 +90,9 @@ table_climate |>
 
 * france : INRAE UMR INFOSOL, *Carte de la Réserve Utile en eau* [doi](http://dx.doi.org/10.15454/JPB9RB) [@LeBas2018] [open]
 
-```{r data_esdb, eval=FALSE}
+```{r}
+#| label: data_esdb
+#| eval: false
 path_esdb <- "~/Documents/INRA/Database/db_esdb"
 
 location <- data.frame(lat=43.5279, lon=1.5009)
@@ -89,7 +102,4 @@ load(paste0(path_esdb, "/data_soil.rda"))
 get_soil_esdb(lat=location$lat, lon=location$lon, data=data_soil)
 
 # get_param_soil(lat=location$lat, lon=location$lon, data=data_soil)
-
 ```
-
-
