@@ -8,6 +8,7 @@ vignette: >
 ---
 
 ```{r}
+#| label: setup
 #| include: false
 library(dplyr)
 library(ggplot2)
@@ -102,4 +103,15 @@ load(paste0(path_esdb, "/data_soil.rda"))
 get_soil_esdb(lat=location$lat, lon=location$lon, data=data_soil)
 
 # get_param_soil(lat=location$lat, lon=location$lon, data=data_soil)
+```
+
+```{r}
+#| label: data_esdac
+#| eval: false
+location <- data.frame(lat=43.5279, lon=1.5009)
+
+path_esdac <- "~/Documents/INRAE/Database/db_esdac"
+
+get_soil_esdac(lat=location$lat, lon=location$lon, country="FR", path=path_esdac)
+
 ```

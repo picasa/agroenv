@@ -4,5 +4,5 @@ utils::globalVariables(c(
   "distance", "id", "lat", "lon", "station_id", "x", "awc_ptf", "awc_ptf_t", "density_t",
   "wilting_point_1","depth","awc_ptf_s","density_s","wilting_point_2","gravel_t","gravel_s",
   "awc","field_capacity_1", "field_capacity_2","stone_content",
-  ".env", "COUNTRY", "ET0", "PR", "RAD", "VP", "WIND", "YEAR", "cell", "dist"
+  ".env", "COUNTRY", "ET0", "PR", "RAD", "VP", "WIND", "YEAR", "cell", "dist",".dist"
   ))
